@@ -6,10 +6,13 @@ import (
 )
 
 func UserRoutes(route *gin.Engine) {
-	user := route.Group("users")
-	{
-		user.GET("/user2", controllers.UserTest2)
-		user.GET("/user", controllers.UserTest)
-	}
+
+	route.GET("/login", controllers.Login)
+	route.POST("/signup", controllers.Signup)
+	// user := route.Group("/user")
+	// {
+	// 	user.GET("/signup", controllers.Signup)
+	// 	user.GET("/login", controllers.Login)
+	// }
 
 }

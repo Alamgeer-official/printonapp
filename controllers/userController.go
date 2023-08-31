@@ -2,13 +2,13 @@ package controllers
 
 import "github.com/gin-gonic/gin"
 
-func UserTest(ctx *gin.Context) {
+func Signup(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{
-		"message": "User Its working",
+		"message": "Signup",
 	})
 }
-func UserTest2(ctx *gin.Context) {
+func Login(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{
-		"message": "User2 Its working",
+		"message": "Login",
 	})
 }
