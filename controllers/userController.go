@@ -1,14 +1,36 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"githuh.com/printonapp/models"
+	"githuh.com/printonapp/services"
+)
 
 func Signup(ctx *gin.Context) {
-	ctx.JSON(200, gin.H{
-		"message": "Signup",
-	})
+	var user models.User
+	err := ctx.ShouldBind(&user)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+	data, err := services.CreateUser(&user)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+	ctx.JSON(http.StatusCreated, data)
 }
 func Login(ctx *gin.Context) {
-	ctx.JSON(200, gin.H{
-		"message": "Login",
-	})
+	//
+}
+
+func GetUser(ctx *gin.Context) {
+	data, err := services.GetUser()
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+	ctx.JSON(http.StatusAccepted, data)
 }

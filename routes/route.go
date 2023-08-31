@@ -6,8 +6,6 @@ func NewRouter() *gin.Engine {
 	//inir gin engine
 	router := gin.Default()
 
-	
-
 	//User Route
 	UserRoutes(router)
 
