@@ -5,8 +5,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/models"
+	"githuh.com/printonapp/repository"
 	"githuh.com/printonapp/services"
 )
+
+var userService = services.NewUserService(repository.NewUserRepo())
 
 func Signup(ctx *gin.Context) {
 	var user models.User
@@ -15,7 +18,7 @@ func Signup(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
-	data, err := services.CreateUser(user)
+	data, err := userService.CreateUser(user)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
 		return
@@ -27,7 +30,7 @@ func Login(ctx *gin.Context) {
 }
 
 func GetUser(ctx *gin.Context) {
-	data, err := services.GetUser()
+	data, err := userService.GetUser()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
 		return

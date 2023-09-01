@@ -2,15 +2,27 @@ package repository
 
 import "githuh.com/printonapp/models"
 
-func CreateUser(data models.User) (*models.User, error) {
+type UserRepo interface {
+	CreateUser(data models.User) (*models.User, error)
+	GetUser() (*[]models.User, error)
+}
+type userRepo struct{}
+
+func NewUserRepo() UserRepo {
+	return &userRepo{}
+
+}
+
+func (u *userRepo) CreateUser(data models.User) (*models.User, error) {
 	result := gormDB.Debug().Create(&data)
+
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	return &data, nil
 }
 
-func GetUser() (*[]models.User, error) {
+func (u *userRepo) GetUser() (*[]models.User, error) {
 	var user []models.User
 	res := gormDB.Find(&user)
 	if res.Error != nil {
