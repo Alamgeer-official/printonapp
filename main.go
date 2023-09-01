@@ -1,7 +1,10 @@
 package main
 
 import (
-	"githuh.com/printonapp/config"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
 	"githuh.com/printonapp/routes"
 )
 
@@ -10,9 +13,15 @@ func main() {
 }
 
 func startServer() {
+	//load env file
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
 	// definf port where run the backen server
-	port := config.Server_port
-
+	port := os.Getenv("SERVER_PORT")
+	// port := config.Server_port
+	
 	// init Gin router
 	r := routes.NewRouter()
 
