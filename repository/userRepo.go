@@ -2,15 +2,19 @@ package repository
 
 import "githuh.com/printonapp/models"
 
-var (
-	user = []models.User{}
-)
-
-func CreateUser(data *models.User) (*models.User, error) {
-	user = append(user, *data)
-	return data, nil
+func CreateUser(data models.User) (*models.User, error) {
+	result := gormDB.Debug().Create(&data)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &data, nil
 }
 
 func GetUser() (*[]models.User, error) {
+	var user []models.User
+	res := gormDB.Find(&user)
+	if res.Error != nil {
+		return nil, res.Error
+	}
 	return &user, nil
 }
