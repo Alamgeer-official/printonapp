@@ -1,9 +1,12 @@
 package repository
 
-import "githuh.com/printonapp/models"
+import (
+	"githuh.com/printonapp/models"
+)
 
 type UserRepo interface {
-	CreateUser(data models.User) (*models.User, error)
+	CreateUser(models.User) (*models.User, error)
+	GetUserByEmail(string) (*models.User, error)
 	GetUser() (*[]models.User, error)
 }
 type userRepo struct{}
@@ -22,6 +25,16 @@ func (u *userRepo) CreateUser(data models.User) (*models.User, error) {
 	return &data, nil
 }
 
+func (u *userRepo) GetUserByEmail(email string) (*models.User, error) {
+
+	var user models.User
+	res := gormDB.Debug().Where("email", email).Find(&user)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return &user, nil
+}
 func (u *userRepo) GetUser() (*[]models.User, error) {
 	var user []models.User
 	res := gormDB.Find(&user)
