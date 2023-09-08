@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,55 +18,32 @@ func Signup(ctx *gin.Context) {
 	var user models.User
 	err := ctx.ShouldBind(&user)
 	if err != nil {
-		utils.ReturnError(ctx, err, http.StatusBadRequest)
-		return
-	}
-	// validation
-	if user.FirstName == "" || user.Email == "" || user.Phone == "" || user.Password == "" || user.Role == "" {
-		utils.ReturnError(ctx, errors.New("mandatory feild is empty"), http.StatusBadRequest)
-		return
-	}
-	userData, err := userService.GetUserByEmail(user.Email)
-	if err != nil {
-		utils.ReturnError(ctx, err, http.StatusBadRequest)
-		return
-	}
-	if userData.Email == user.Email {
-		utils.ReturnError(ctx, errors.New("account already created"), http.StatusConflict)
+		utils.ReturnError(ctx, err, http.StatusInternalServerError)
 		return
 	}
 
 	//create user
 	data, err := userService.CreateUser(user)
 	if err != nil {
-		utils.ReturnError(ctx, err, http.StatusConflict)
+		utils.ReturnError(ctx, err, http.StatusInternalServerError)
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, data)
+	utils.ReturnResponse(ctx, data, http.StatusCreated)
 }
 func Login(ctx *gin.Context) {
 	var user map[string]string
 	err := ctx.ShouldBind(&user)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err)
+		utils.ReturnError(ctx, err, http.StatusBadRequest)
 		return
 	}
-	userData, err := userService.GetUserByEmail(user["email"])
+	data, err := userService.Login(user)
 	if err != nil {
 		utils.ReturnError(ctx, err, http.StatusBadRequest)
 		return
 	}
-	if userData.Email == "" {
-		utils.ReturnError(ctx, err, http.StatusNotFound)
-		return
-	}
-
-	if userData.Password != user["password"] {
-		utils.ReturnError(ctx, errors.New("password not matched"), http.StatusUnauthorized)
-		return
-	}
-	utils.ReturnResponse(ctx, userData, http.StatusOK)
+	utils.ReturnResponse(ctx, data, http.StatusOK)
 }
 
 func GetUser(ctx *gin.Context) {

@@ -28,16 +28,16 @@ func (u *userRepo) CreateUser(data models.User) (*models.User, error) {
 func (u *userRepo) GetUserByEmail(email string) (*models.User, error) {
 
 	var user models.User
-	res := gormDB.Debug().Where("email", email).Find(&user)
+	res := gormDB.Debug().Where("email", email).Where("active=true").Find(&user)
 	if res.Error != nil {
 		return nil, res.Error
 	}
-
+	
 	return &user, nil
 }
 func (u *userRepo) GetUser() (*[]models.User, error) {
 	var user []models.User
-	res := gormDB.Find(&user)
+	res := gormDB.Omit("password").Find(&user)
 	if res.Error != nil {
 		return nil, res.Error
 	}
