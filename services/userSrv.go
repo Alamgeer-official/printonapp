@@ -6,9 +6,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/models"
 	"githuh.com/printonapp/repository"
-	jwt "githuh.com/printonapp/utils/Jwt"
+	"githuh.com/printonapp/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -16,7 +17,7 @@ type UserService interface {
 	CreateUser(models.User) (*models.User, error)
 	Login(map[string]string) (*models.User, error)
 	GetUserByEmail(string) (*models.User, error)
-	GetUser() (*[]models.User, error)
+	GetUser(ctx *gin.Context) (*[]models.User, error)
 }
 type userService struct {
 	userRepo repository.UserRepo
@@ -47,11 +48,12 @@ func (uSvc *userService) CreateUser(user models.User) (*models.User, error) {
 		return nil, err
 	}
 
-	//
+	// assign values
 	user.Password = string(pwd)
 	user.CreatedOn = time.Now()
 	user.Email = strings.ToLower(user.Email)
 	user.Active = true
+	user.Role = "USER"
 	data, err := uSvc.userRepo.CreateUser(user)
 	if err != nil {
 		return nil, err
@@ -74,7 +76,7 @@ func (uSvc *userService) Login(credential map[string]string) (*models.User, erro
 		return nil, err // Password mismatch or invalid hash
 	}
 
-	accesToken, err := jwt.CreateJWToken(userData)
+	accesToken, err := utils.CreateJWToken(userData)
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +95,12 @@ func (uSvc *userService) GetUserByEmail(email string) (*models.User, error) {
 	}
 	return data, nil
 }
-func (uSvc *userService) GetUser() (*[]models.User, error) {
+func (uSvc *userService) GetUser(ctx *gin.Context) (*[]models.User, error) {
+	user := utils.GetUserDataFromContext(ctx)
+	if !user.IsAdmin() {
+		return nil, errors.New("only admin allowed")
+	}
+
 	data, err := uSvc.userRepo.GetUser()
 	if err != nil {
 		return nil, err

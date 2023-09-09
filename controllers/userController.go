@@ -47,10 +47,9 @@ func Login(ctx *gin.Context) {
 }
 
 func GetUser(ctx *gin.Context) {
-	data, err := userService.GetUser()
+	data, err := userService.GetUser(ctx)
 	if err != nil {
 		utils.ReturnError(ctx, err, http.StatusBadRequest)
-
 		return
 	}
 	utils.ReturnResponse(ctx, data, http.StatusOK)
