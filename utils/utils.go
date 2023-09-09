@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	SECRET string = "dfhdf8fr4y47b78b56f573857b358375b675365b8f"
+	SECRET string = "7f44b7e3efdd45a43fb5fc73d615e135691c9b79f77ef87b63e1aa8b4fcd5c4"
 )
 
 func CreateJWToken(user *models.User) (string, error) {
