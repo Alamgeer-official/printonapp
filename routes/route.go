@@ -8,6 +8,8 @@ func NewRouter() *gin.Engine {
 	//inir gin engine
 	router := gin.Default()
 
+	//Admin route
+	AdminRoute(router)
 	//User Route
 	UserRoutes(router)
 
