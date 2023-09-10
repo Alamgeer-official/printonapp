@@ -2,11 +2,16 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"githuh.com/printonapp/controllers"
 )
 
 func NewRouter() *gin.Engine {
 	//inir gin engine
 	router := gin.Default()
+
+	//Login & Signup Routes
+	router.POST("/login", controllers.Login)
+	router.POST("/signup", controllers.Signup)
 
 	//Admin route
 	AdminRoute(router)
