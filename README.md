@@ -37,6 +37,7 @@ To add a new product as an admin, send a POST request to /admin/product.
 shell
 Copy code
 curl -X POST -d '{"name": "Product Name", "description": "Product Description", "price": 10.99}' http://localhost:8080/admin/product
+
 User Information
 Retrieve User Information:
 
@@ -49,10 +50,15 @@ Copy code
 curl http://localhost:8080/users/
 ##API Endpoints
 POST /login: User login.
+
 POST /signup: User registration.
+
 POST /admin/product: Add a product (admin route).
+
 GET /users/: Retrieve user information.
+
 GET /homepage/: Sample home page routes.
+
 ##Technologies Used
 Go programming language.
 Gin web framework.
