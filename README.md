@@ -17,36 +17,13 @@ PrintOnApp is a web application built using the Go programming language, the Gin
 - API endpoint for retrieving user information.
 - Sample home page endpoints for testing purposes.
 
-# Installation
 
-Install the required dependencies:
-
-shell
-Copy code
-go mod tidy
-Set up your PostgreSQL database and configure the connection in the config/config.go file.
-
-Run the application:
-
-shell
-Copy code
-go run main.go
-Usage
-User Authentication and Product Management
-User Login:
-
-To log in, send a POST request to /login with your credentials.
-
-# Example:
-
-shell
-Copy code
 curl -X POST -d '{"username": "your_username", "password": "your_password"}' http://localhost:8080/login
 User Registration:
 
 To register as a new user, send a POST request to /signup with your registration details.
 
-#Example:
+# Example:
 
 shell
 Copy code
@@ -55,7 +32,7 @@ Add a Product (Admin Route):
 
 To add a new product as an admin, send a POST request to /admin/product.
 
-#Example:
+# Example:
 
 shell
 Copy code
@@ -65,7 +42,7 @@ Retrieve User Information:
 
 To retrieve user information, send a GET request to /users.
 
-#Example:
+# Example:
 
 shell
 Copy code
