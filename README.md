@@ -2,11 +2,11 @@
 
 ---
 
-## Overview
+# Overview
 
 PrintOnApp is a web application built using the Go programming language, the Gin web framework, JWT middleware for authentication and authorization, and GORM for PostgreSQL database integration. The application is designed to demonstrate my skills in building a secure and efficient web application using Go.
 
-## Features
+# Features
 
 - User authentication and authorization using JWT (JSON Web Tokens).
 - PostgreSQL database integration for data storage.
@@ -17,7 +17,7 @@ PrintOnApp is a web application built using the Go programming language, the Gin
 - API endpoint for retrieving user information.
 - Sample home page endpoints for testing purposes.
 
-## Installation
+# Installation
 
 Install the required dependencies:
 
@@ -37,7 +37,7 @@ User Login:
 
 To log in, send a POST request to /login with your credentials.
 
-##Example:
+# Example:
 
 shell
 Copy code
@@ -46,7 +46,7 @@ User Registration:
 
 To register as a new user, send a POST request to /signup with your registration details.
 
-##Example:
+#Example:
 
 shell
 Copy code
@@ -55,7 +55,7 @@ Add a Product (Admin Route):
 
 To add a new product as an admin, send a POST request to /admin/product.
 
-##Example:
+#Example:
 
 shell
 Copy code
@@ -65,7 +65,7 @@ Retrieve User Information:
 
 To retrieve user information, send a GET request to /users.
 
-##Example:
+#Example:
 
 shell
 Copy code
