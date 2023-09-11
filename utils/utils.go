@@ -3,6 +3,7 @@ package utils
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -11,8 +12,8 @@ import (
 	"githuh.com/printonapp/models"
 )
 
-const (
-	SECRET string = "7f44b7e3efdd45a43fb5fc73d615e135691c9b79f77ef87b63e1aa8b4fcd5c4"
+var (
+	SECRET = os.Getenv("SECRET")
 )
 
 func CreateJWToken(user *models.User) (string, error) {
