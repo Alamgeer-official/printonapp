@@ -6,7 +6,7 @@ import (
 )
 
 func NewRouter() *gin.Engine {
-	//inir gin engine
+	//init gin engine
 	router := gin.Default()
 
 	//Login & Signup Routes
@@ -17,7 +17,6 @@ func NewRouter() *gin.Engine {
 	AdminRoute(router)
 	//User Route
 	UserRoutes(router)
-
 	//Home page Route
 	HomePageSubroute(router)
 	return router

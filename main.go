@@ -25,7 +25,7 @@ func main() {
 
 func startServer() {
 
-	// definf port where run the backen server
+	// define port where run the backend server
 	port := os.Getenv("SERVER_PORT")
 	// port := config.Server_port
 
@@ -33,6 +33,9 @@ func startServer() {
 	r := routes.NewRouter()
 
 	//start server
-	r.Run(port)
+	err := r.Run(port)
+	if err != nil {
+		return
+	}
 
 }
