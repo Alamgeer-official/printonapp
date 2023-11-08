@@ -55,3 +55,9 @@ func GetUser(ctx *gin.Context) {
 	utils.ReturnResponse(ctx, data, http.StatusOK)
 
 }
+
+func Test(ctx *gin.Context) {
+	
+	utils.ReturnResponse(ctx, "server is running", http.StatusOK)
+
+}
