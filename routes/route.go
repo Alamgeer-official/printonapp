@@ -9,6 +9,8 @@ func NewRouter() *gin.Engine {
 	//init gin engine
 	router := gin.Default()
 
+	router.GET("",controllers.Test)
+
 	//Login & Signup Routes
 	router.POST("/login", controllers.Login)
 	router.POST("/signup", controllers.Signup)
