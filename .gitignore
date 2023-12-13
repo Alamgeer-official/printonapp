@@ -10,7 +10,7 @@ tmp/
 *.dll
 *.so
 *.dylib
-
+printonapp
 
 
 # Test binary, built with `go test -c`
