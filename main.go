@@ -6,6 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	// "githuh.com/printonapp/repository"
+	"githuh.com/printonapp/repository"
 	"githuh.com/printonapp/routes"
 )
 
@@ -17,7 +18,7 @@ func main() {
 	}
 
 	// init database
-	// repository.InitDbConnectionos()
+	repository.InitDbConnectionos()
 
 	// init server
 	startServer()
