@@ -9,7 +9,7 @@ PrintOnApp is a web application built using the Go programming language, the Gin
 # Features
 
 - User authentication and authorization using JWT (JSON Web Tokens).
-- PostgreSQL database integration for data storage.
+- PostgreSQL database integration for data storage.(deployed in AWS RDS)
 - Structured routing with Gin's group functionality.
 - Three main routes: admin, user, and home.
 - API endpoints for user login and signup.
