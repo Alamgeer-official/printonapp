@@ -7,7 +7,7 @@ import (
 type UserRepo interface {
 	CreateUser(models.User) (*models.User, error)
 	GetUserByEmail(string) (*models.User, error)
-	GetUser() (*[]models.User, error)
+	GetUsers() (*[]models.User, error)
 }
 type userRepo struct{}
 
@@ -35,9 +35,9 @@ func (u *userRepo) GetUserByEmail(email string) (*models.User, error) {
 
 	return &user, nil
 }
-func (u *userRepo) GetUser() (*[]models.User, error) {
+func (u *userRepo) GetUsers() (*[]models.User, error) {
 	var user []models.User
-	res := gormDB.Omit("password").Find(&user)
+	res := gormDB.Omit("password").Where("role", "USER").Find(&user)
 	if res.Error != nil {
 		return nil, res.Error
 	}

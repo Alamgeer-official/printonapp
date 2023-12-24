@@ -17,7 +17,7 @@ type UserService interface {
 	CreateUser(models.User) (*models.User, error)
 	Login(map[string]string) (*models.User, error)
 	GetUserByEmail(string) (*models.User, error)
-	GetUser(ctx *gin.Context) (*[]models.User, error)
+	GetUsers(ctx *gin.Context) (*[]models.User, error)
 }
 type userService struct {
 	userRepo repository.UserRepo
@@ -95,13 +95,13 @@ func (uSvc *userService) GetUserByEmail(email string) (*models.User, error) {
 	}
 	return data, nil
 }
-func (uSvc *userService) GetUser(ctx *gin.Context) (*[]models.User, error) {
+func (uSvc *userService) GetUsers(ctx *gin.Context) (*[]models.User, error) {
 	user := utils.GetUserDataFromContext(ctx)
 	if !user.IsAdmin() {
 		return nil, errors.New("only admin allowed")
 	}
 
-	data, err := uSvc.userRepo.GetUser()
+	data, err := uSvc.userRepo.GetUsers()
 	if err != nil {
 		return nil, err
 	}

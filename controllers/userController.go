@@ -46,8 +46,8 @@ func Login(ctx *gin.Context) {
 	utils.ReturnResponse(ctx, data, http.StatusOK)
 }
 
-func GetUser(ctx *gin.Context) {
-	data, err := userService.GetUser(ctx)
+func GetUsers(ctx *gin.Context) {
+	data, err := userService.GetUsers(ctx)
 	if err != nil {
 		utils.ReturnError(ctx, err, http.StatusBadRequest)
 		return
@@ -57,7 +57,7 @@ func GetUser(ctx *gin.Context) {
 }
 
 func Test(ctx *gin.Context) {
-	
+
 	utils.ReturnResponse(ctx, "server is running", http.StatusOK)
 
 }
