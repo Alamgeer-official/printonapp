@@ -95,6 +95,15 @@ func (uSvc *userService) GetUserByEmail(email string) (*models.User, error) {
 	}
 	return data, nil
 }
+func (uSvc *userService) GetUserById(ctx *gin.Context) (*models.User, error) {
+	user := utils.GetUserDataFromContext(ctx)
+
+	data, err := uSvc.userRepo.GetUserById(user.ID)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
 func (uSvc *userService) GetUsers(ctx *gin.Context) (*[]models.User, error) {
 	user := utils.GetUserDataFromContext(ctx)
 	if !user.IsAdmin() {

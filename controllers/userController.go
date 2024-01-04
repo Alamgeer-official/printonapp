@@ -55,6 +55,15 @@ func GetUsers(ctx *gin.Context) {
 	utils.ReturnResponse(ctx, data, http.StatusOK)
 
 }
+func GetUserById(ctx *gin.Context) {
+	data, err := userService.GetUsers(ctx)
+	if err != nil {
+		utils.ReturnError(ctx, err, http.StatusBadRequest)
+		return
+	}
+	utils.ReturnResponse(ctx, data, http.StatusOK)
+
+}
 
 func Test(ctx *gin.Context) {
 

@@ -11,6 +11,7 @@ func UserRoutes(route *gin.Engine) {
 	user := route.Group("/users")
 	{
 		user.GET("/", middelware.AuthMiddelware(), controllers.GetUsers)
+		user.GET("/user", middelware.AuthMiddelware(), controllers.GetUsers)
 	}
 
 }
