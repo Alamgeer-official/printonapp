@@ -10,7 +10,6 @@ func AdminRoute(route *gin.Engine) {
 
 	admin := route.Group("/admin", middelware.AuthMiddelware())
 	{
-
 		//Products
 		productCtr := controllers.NewProductCtr()
 		admin.POST("/product", productCtr.AddProducts)

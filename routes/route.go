@@ -3,11 +3,13 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/controllers"
+	"githuh.com/printonapp/middelware"
 )
 
 func NewRouter() *gin.Engine {
 	//init gin engine
 	router := gin.Default()
+	router.Use(middelware.SetupCORSMiddleware())
 
 	router.GET("", controllers.Test)
 
