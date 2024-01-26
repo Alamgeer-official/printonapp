@@ -33,6 +33,9 @@ func (uSvc *userService) CreateUser(user models.User) (*models.User, error) {
 	if user.FirstName == "" || user.Email == "" || user.Phone == "" || user.Password == "" || user.Role == "" {
 		return nil, errors.New("mandatory feild is empty")
 	}
+	// by default set role USER
+	user.Role = "USER"
+	//lower case email
 	user.Email = strings.ToLower(user.Email)
 	// Get user detail
 	userData, err := uSvc.GetUserByEmail(user.Email)

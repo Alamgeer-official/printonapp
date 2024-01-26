@@ -6,7 +6,7 @@ import (
 
 type College struct {
 	ID          uint      `gorm:"primaryKey" json:"id"`
-	CollegeName string    `gorm:"column:collegeName" json:"collegeName"`
+	CollegeName string    `gorm:"column:collegename" json:"collegeName"`
 	Active      bool      `gorm:"column:active" json:"active"`
 	CreatedOn   time.Time `gorm:"column:createdOn" json:"createdOn"`
 }

@@ -1,20 +1,15 @@
 package routes
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"githuh.com/printonapp/controllers"
 )
 
 func HomePageSubroute(route *gin.Engine) {
 	homePage := route.Group("/homepage")
-	{
-		homePage.GET("/", func(ctx *gin.Context) {
-			ctx.JSON(http.StatusOK, gin.H{"message": "im in homepage"})
+	{ // college controller
+		collegeCtr := controllers.NewCollegeCtr()
+		homePage.GET("/colleges", collegeCtr.GetColleges)
 
-		})
-		homePage.GET("/test", func(ctx *gin.Context) {
-			ctx.IndentedJSON(http.StatusAccepted, "i m in test home page")
-		})
 	}
 }

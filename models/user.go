@@ -17,7 +17,7 @@ type User struct {
 	Role       string    `gorm:"column:role;not null" json:"role"`
 	CreatedOn  time.Time `gorm:"column:createdOn" json:"created_on"`
 	Phone      string    `gorm:"column:phone;not null" json:"phone,omitempty"`
-	CollegeId  int64     `gorm:"column:collegeId" json:"collegeId"`
+	CollegeId  int64     `gorm:"column:collegeid" json:"collegeId"`
 	College    College   `gorm:"foreignKey:CollegeId"`
 	//AccessToken field without a corresponding gorm tag
 	AccessToken string `gorm:"-" json:"access_token,omitempty"`
@@ -30,14 +30,9 @@ type Claim struct {
 }
 
 func (u *User) IsAdmin() bool {
-	if u.Role == "ADMIN" {
-		return true
-	}
-	return false
+	
+	return u.Role == "ADMIN"
 }
 func (u *User) IsUser() bool {
-	if u.Role == "USER" {
-		return true
-	}
-	return false
+	return u.Role == "USER"
 }
