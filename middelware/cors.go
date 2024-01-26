@@ -1,15 +1,16 @@
 package middelware
 
 import (
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
+    "github.com/gin-contrib/cors"
+    "github.com/gin-gonic/gin"
 )
 
 // SetupCORSMiddleware configures and returns the CORS middleware.
 func SetupCORSMiddleware() gin.HandlerFunc {
-	config := cors.DefaultConfig()
-	// config.AllowOrigins = []string{"*"} // Replace with your frontend's actual origin
-	// config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+    config := cors.DefaultConfig()
+    config.AllowAllOrigins = true
+    config.AllowCredentials = true
+    config.AddAllowHeaders("Authorization")
 
-	return cors.New(config)
+    return cors.New(config)
 }
