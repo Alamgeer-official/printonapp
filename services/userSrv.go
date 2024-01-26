@@ -33,6 +33,7 @@ func (uSvc *userService) CreateUser(user models.User) (*models.User, error) {
 	if user.FirstName == "" || user.Email == "" || user.Phone == "" || user.Password == "" || user.Role == "" {
 		return nil, errors.New("mandatory feild is empty")
 	}
+	user.Email = strings.ToLower(user.Email)
 	// Get user detail
 	userData, err := uSvc.GetUserByEmail(user.Email)
 	if err != nil {
@@ -62,7 +63,10 @@ func (uSvc *userService) CreateUser(user models.User) (*models.User, error) {
 }
 func (uSvc *userService) Login(credential map[string]string) (*models.User, error) {
 	//validations
-	userData, err := uSvc.GetUserByEmail(credential["email"])
+	email := credential["email"]
+	email = strings.ToLower(email)
+
+	userData, err := uSvc.GetUserByEmail(email)
 	if err != nil {
 		return nil, err
 	}

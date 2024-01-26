@@ -2,6 +2,7 @@ package repository
 
 import (
 	"githuh.com/printonapp/models"
+	"gorm.io/gorm/clause"
 )
 
 type UserRepo interface {
@@ -29,7 +30,7 @@ func (u *userRepo) CreateUser(data models.User) (*models.User, error) {
 func (u *userRepo) GetUserByEmail(email string) (*models.User, error) {
 
 	var user models.User
-	res := gormDB.Where("email", email).Where("active=true").Find(&user)
+	res := gormDB.Preload(clause.Associations).Where("email", email).Where("active=true").Find(&user)
 	if res.Error != nil {
 		return nil, res.Error
 	}
