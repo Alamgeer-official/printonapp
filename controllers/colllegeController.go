@@ -22,7 +22,7 @@ func NewCollegeCtr() CollegeCtr {
 
 var collegeSrv = services.NewCollegeRepo(repository.NewCollegeRepo())
 
-func (cc *collegeCtr)GetColleges(ctx *gin.Context) {
+func (cc *collegeCtr) GetColleges(ctx *gin.Context) {
 
 	data, err := collegeSrv.GetColleges()
 	if err != nil {

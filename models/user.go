@@ -30,7 +30,7 @@ type Claim struct {
 }
 
 func (u *User) IsAdmin() bool {
-	
+
 	return u.Role == "ADMIN"
 }
 func (u *User) IsUser() bool {
