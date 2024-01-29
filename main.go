@@ -34,7 +34,7 @@ func startServer() {
 	r := routes.NewRouter()
 
 	//start server
-	err := r.Run(port)
+	err := r.Run("0.0.0.0"+port)
 	if err != nil {
 		return
 	}
