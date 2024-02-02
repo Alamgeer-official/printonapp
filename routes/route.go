@@ -7,6 +7,8 @@ import (
 )
 
 func NewRouter() *gin.Engine {
+	// Set Gin mode to release mode
+	gin.SetMode(gin.ReleaseMode)
 	//init gin engine
 	router := gin.Default()
 	router.Use(middelware.SetupCORSMiddleware())

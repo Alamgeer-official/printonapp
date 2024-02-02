@@ -20,7 +20,10 @@ func AdminRoute(route *gin.Engine) {
 		admin.GET("/theses", thesisCtr.ReadAllTheses)
 		admin.GET("/thesis/:id", thesisCtr.GetThesisByID)
 
-	}
+		// File upload
+		fileCtr := controllers.NewFileController()
+		admin.POST("/upload-pdf", fileCtr.UploadPDF)
 
+	}
 
 }

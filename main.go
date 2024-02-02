@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -21,7 +22,9 @@ func main() {
 	repository.InitDbConnectionos()
 
 	// init server
+	fmt.Printf("server is running......\n")
 	startServer()
+
 }
 
 func startServer() {
