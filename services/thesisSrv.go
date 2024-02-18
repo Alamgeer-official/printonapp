@@ -12,7 +12,7 @@ import (
 type ThesisSrv interface {
 	CreateThesis(ctx *gin.Context, thesis *models.Theses) error
 	ReadAllTheses(ctx *gin.Context) (*[]models.Theses, error)
-	ReadAllThesesByRole(ctx *gin.Context, collegeID,page, pageSize int) (*models.Pagination, error)
+	ReadAllThesesByRole(ctx *gin.Context, collegeID, page, pageSize int) (*models.Pagination, error)
 	GetThesisByID(ctx *gin.Context, id uint64) (*models.Theses, error)
 }
 
@@ -50,7 +50,7 @@ func (ts *thesisSrv) ReadAllTheses(ctx *gin.Context) (*[]models.Theses, error) {
 	}
 	return data, nil
 }
-func (ts *thesisSrv) ReadAllThesesByRole(ctx *gin.Context,collegeID, page, pageSize int) (*models.Pagination, error) {
+func (ts *thesisSrv) ReadAllThesesByRole(ctx *gin.Context, collegeID, page, pageSize int) (*models.Pagination, error) {
 	user := utils.GetUserDataFromContext(ctx)
 	if user.IsUser() {
 		//for normal user
@@ -62,7 +62,7 @@ func (ts *thesisSrv) ReadAllThesesByRole(ctx *gin.Context,collegeID, page, pageS
 		return pagination, nil
 	} else if user.IsAdmin() {
 		//for admin
-		data, totalCount, err := ts.thesisRepo.ReadAllThesesByCollegeID(user.ID,collegeID, page, pageSize)
+		data, totalCount, err := ts.thesisRepo.ReadAllThesesByCollegeID(user.ID, collegeID, page, pageSize)
 		if err != nil {
 			return nil, err
 		}

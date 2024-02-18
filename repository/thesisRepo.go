@@ -11,7 +11,7 @@ type ThesisRepo interface {
 	CreateThesis(thesis *models.Theses) error
 	ReadAllTheses() (*[]models.Theses, error)
 	ReadAllThesesByUserID(uID int64, page, pageSize int) (*[]models.Theses, int64, error)
-	ReadAllThesesByCollegeID(uID int64, collegeID, page, pageSize int) (*[]models.Theses, int64, error)//for admin
+	ReadAllThesesByCollegeID(uID int64, collegeID, page, pageSize int) (*[]models.Theses, int64, error) //for admin
 	GetThesisByID(id uint64) (*models.Theses, error)
 }
 
