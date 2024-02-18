@@ -80,7 +80,7 @@ func (uSvc *userService) Login(credential map[string]string) (*models.User, erro
 	// Compare hashed password
 	err = bcrypt.CompareHashAndPassword([]byte(userData.Password), []byte(credential["password"]))
 	if err != nil {
-		return nil, err // Password mismatch or invalid hash
+		return nil, errors.New("incorrect password") 
 	}
 
 	accesToken, err := utils.CreateJWToken(userData)
