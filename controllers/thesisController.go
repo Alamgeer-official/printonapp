@@ -62,7 +62,13 @@ func (tc *thesisCtr) ReadAllThesesByRole(ctx *gin.Context) {
 	if err != nil || pageSize <= 0 {
 		pageSize = 10
 	}
-	data, err := thesisSrv.ReadAllThesesByRole(ctx, page, pageSize)
+
+	collegeID, err := strconv.Atoi(ctx.DefaultQuery("collegeID", "7")) //for admin use only
+	if err != nil || collegeID <= 0 {
+		collegeID = 7
+	}
+
+	data, err := thesisSrv.ReadAllThesesByRole(ctx, collegeID, page, pageSize)
 	if err != nil {
 		utils.ReturnError(ctx, err, http.StatusInternalServerError)
 		return

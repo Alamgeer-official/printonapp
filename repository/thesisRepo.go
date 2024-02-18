@@ -11,6 +11,7 @@ type ThesisRepo interface {
 	CreateThesis(thesis *models.Theses) error
 	ReadAllTheses() (*[]models.Theses, error)
 	ReadAllThesesByUserID(uID int64, page, pageSize int) (*[]models.Theses, int64, error)
+	ReadAllThesesByCollegeID(uID int64, collegeID, page, pageSize int) (*[]models.Theses, int64, error)//for admin
 	GetThesisByID(id uint64) (*models.Theses, error)
 }
 
@@ -47,6 +48,34 @@ func (tr *thesisRepo) ReadAllThesesByUserID(uID int64, page, pageSize int) (*[]m
 	// Retrieve paginated theses for the user
 	if res := gormDB.Where("active = ?", true).Where("createdby = ?", uID).Offset((page - 1) * pageSize).Limit(pageSize).Find(&theses); res.Error != nil {
 		return nil, 0, errors.New("error fetching thesis records")
+	}
+
+	return &theses, totalCount, nil
+}
+func (tr *thesisRepo) ReadAllThesesByCollegeID(uID int64, collegeID, page, pageSize int) (*[]models.Theses, int64, error) {
+	var theses []models.Theses
+	var totalCount int64
+
+	// Count total number of theses for the college
+	if err := gormDB.Model(&models.Theses{}).
+		Joins("JOIN users ON theses.createdby = users.id").
+		Where("users.collegeid = ?", collegeID).
+		Where("theses.active = ?", true).
+		Count(&totalCount).Error; err != nil {
+		return nil, 0, err
+	}
+
+	// Retrieve paginated theses for the college
+	if err := gormDB.Model(&models.Theses{}).
+		Preload("User").
+		Joins("JOIN users ON theses.createdby = users.id").
+		Where("users.collegeid = ?", collegeID).
+		Where("theses.active = ?", true).
+		Order("theses.createdon DESC").
+		Offset((page - 1) * pageSize).
+		Limit(pageSize).
+		Find(&theses).Error; err != nil {
+		return nil, 0, err
 	}
 
 	return &theses, totalCount, nil

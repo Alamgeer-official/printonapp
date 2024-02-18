@@ -17,7 +17,7 @@ func AdminRoute(route *gin.Engine) {
 		// Thesis
 		thesisCtr := controllers.NewThesisCtr()
 		admin.POST("/thesis", thesisCtr.CreateThesis)
-		admin.GET("/theses", thesisCtr.ReadAllTheses)
+		admin.GET("/thesis", thesisCtr.ReadAllThesesByRole)
 		admin.GET("/thesis/:id", thesisCtr.GetThesisByID)
 
 		// File upload
