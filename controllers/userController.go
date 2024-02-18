@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -68,5 +69,24 @@ func GetUserById(ctx *gin.Context) {
 func Test(ctx *gin.Context) {
 
 	utils.ReturnResponse(ctx, "server is running", http.StatusOK)
+
+}
+
+func IsEmailExists(ctx *gin.Context) {
+	email := ctx.Query("email")
+	if email == "" {
+		utils.ReturnError(ctx, errors.New("Email parameter is required"), http.StatusBadRequest)
+
+		return
+	}
+
+	exists, err := userService.IsEmailExists(email)
+	if err != nil {
+		utils.ReturnError(ctx, errors.New("Failed to check email existence"), http.StatusInternalServerError)
+
+		return
+	}
+
+	utils.ReturnResponse(ctx, exists, http.StatusOK)
 
 }

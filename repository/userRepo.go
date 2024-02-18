@@ -1,7 +1,10 @@
 package repository
 
 import (
+	"errors"
+
 	"githuh.com/printonapp/models"
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -10,6 +13,7 @@ type UserRepo interface {
 	GetUserByEmail(string) (*models.User, error)
 	GetUserById(id int64) (*models.User, error)
 	GetUsers() (*[]models.User, error)
+	IsEmailExists(email string) (bool, error)
 }
 type userRepo struct{}
 
@@ -54,4 +58,18 @@ func (u *userRepo) GetUsers() (*[]models.User, error) {
 		return nil, res.Error
 	}
 	return &user, nil
+}
+
+func (u *userRepo) IsEmailExists(email string) (bool, error) {
+	var user models.User
+	res := gormDB.Where("email = ?", email).First(&user)
+	if res.Error != nil && errors.Is(res.Error, gorm.ErrRecordNotFound) {
+		// No record found, email does not exist
+		return false, nil
+	} else if res.Error != nil {
+		// Some other error occurred
+		return false, res.Error
+	}
+	// Record found, email exists
+	return true, nil
 }

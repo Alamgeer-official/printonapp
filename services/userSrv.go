@@ -18,6 +18,7 @@ type UserService interface {
 	Login(map[string]string) (*models.User, error)
 	GetUserByEmail(string) (*models.User, error)
 	GetUsers(ctx *gin.Context) (*[]models.User, error)
+	IsEmailExists(email string) (bool, error)
 }
 type userService struct {
 	userRepo repository.UserRepo
@@ -80,7 +81,7 @@ func (uSvc *userService) Login(credential map[string]string) (*models.User, erro
 	// Compare hashed password
 	err = bcrypt.CompareHashAndPassword([]byte(userData.Password), []byte(credential["password"]))
 	if err != nil {
-		return nil, errors.New("incorrect password") 
+		return nil, errors.New("incorrect password")
 	}
 
 	accesToken, err := utils.CreateJWToken(userData)
@@ -122,4 +123,12 @@ func (uSvc *userService) GetUsers(ctx *gin.Context) (*[]models.User, error) {
 		return nil, err
 	}
 	return data, nil
+}
+func (uSvc *userService) IsEmailExists(email string) (bool, error) {
+	data, err := uSvc.userRepo.IsEmailExists(email)
+	if err != nil {
+		return false, err
+	}
+	return data, nil
+
 }
