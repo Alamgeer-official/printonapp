@@ -10,6 +10,7 @@ type Theses struct {
 	CreatedOn    time.Time   `gorm:"column:createdon;not null;default:CURRENT_TIMESTAMP" json:"created_on"`
 	UpdatedOn    time.Time   `gorm:"column:updatedon;default:CURRENT_TIMESTAMP" json:"updated_on"`
 	CreatedBy    uint64      `gorm:"column:createdby" json:"created_by"`
+	User         User        `gorm:"foreignKey:CreatedBy;references:ID" json:"user"`
 	UpdatedBy    uint64      `gorm:"column:updatedby" json:"updated_by"`
 	Color        string      `gorm:"column:color;not null" json:"color"`
 	PaperType    string      `gorm:"column:papertype;not null" json:"paper_type"`

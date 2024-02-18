@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/models"
@@ -12,6 +13,7 @@ import (
 type ThesisSrv interface {
 	CreateThesis(ctx *gin.Context, thesis *models.Theses) error
 	ReadAllTheses(ctx *gin.Context) (*[]models.Theses, error)
+	ReadAllThesesByRole(ctx *gin.Context, page, pageSize int) (*models.Pagination, error)
 	GetThesisByID(ctx *gin.Context, id uint64) (*models.Theses, error)
 }
 
@@ -28,9 +30,9 @@ func (ts *thesisSrv) CreateThesis(ctx *gin.Context, thesis *models.Theses) error
 	if !user.IsUser() {
 		return errors.New("only Authenticated User allow")
 	}
-	thesis.Active=true
-	thesis.CreatedBy=uint64(user.ID)
-	thesis.Status=models.OrderStatus(models.Booked)
+	thesis.Active = true
+	thesis.CreatedBy = uint64(user.ID)
+	thesis.Status = models.OrderStatus(models.Booked)
 
 	if err := ts.thesisRepo.CreateThesis(thesis); err != nil {
 		return err
@@ -48,6 +50,27 @@ func (ts *thesisSrv) ReadAllTheses(ctx *gin.Context) (*[]models.Theses, error) {
 		return nil, err
 	}
 	return data, nil
+}
+func (ts *thesisSrv) ReadAllThesesByRole(ctx *gin.Context, page, pageSize int) (*models.Pagination, error) {
+	user := utils.GetUserDataFromContext(ctx)
+	if user.IsUser() {
+		fmt.Printf("\"user\": %v\n", "user")
+		//for normal user
+		data, totalCount, err := ts.thesisRepo.ReadAllThesesByUserID(user.ID, page, pageSize)
+		if err != nil {
+			return nil, err
+		}
+		pagination := utils.CalculatePagination(totalCount, int64(pageSize), int64(page), data)
+		return pagination, nil
+	} else if user.IsAdmin() {
+		//for admin
+		fmt.Printf("\"admin\": %v\n", "admin")
+
+		return nil, nil
+
+	} else {
+		return nil, errors.New("Uauthenticated user")
+	}
 }
 
 func (ts *thesisSrv) GetThesisByID(ctx *gin.Context, id uint64) (*models.Theses, error) {

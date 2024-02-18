@@ -8,10 +8,13 @@ import (
 
 func UserRoutes(route *gin.Engine) {
 
-	user := route.Group("/users")
+	user := route.Group("/users", middelware.AuthMiddelware())
 	{
-		user.GET("/", middelware.AuthMiddelware(), controllers.GetUsers)
-		user.GET("/user", middelware.AuthMiddelware(), controllers.GetUsers)
+		user.GET("/", controllers.GetUsers)
+
+		// Thesis
+		thesisCtr := controllers.NewThesisCtr()
+		user.GET("/thesis", thesisCtr.ReadAllThesesByRole)
 	}
 
 }

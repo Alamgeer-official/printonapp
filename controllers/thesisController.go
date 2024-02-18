@@ -15,6 +15,7 @@ import (
 type ThesisCtr interface {
 	CreateThesis(ctx *gin.Context)
 	ReadAllTheses(ctx *gin.Context)
+	ReadAllThesesByRole(ctx *gin.Context)
 	GetThesisByID(ctx *gin.Context)
 }
 
@@ -43,6 +44,25 @@ func (tc *thesisCtr) CreateThesis(ctx *gin.Context) {
 
 func (tc *thesisCtr) ReadAllTheses(ctx *gin.Context) {
 	data, err := thesisSrv.ReadAllTheses(ctx)
+	if err != nil {
+		utils.ReturnError(ctx, err, http.StatusInternalServerError)
+		return
+	}
+	utils.ReturnResponse(ctx, data, http.StatusOK)
+}
+
+func (tc *thesisCtr) ReadAllThesesByRole(ctx *gin.Context) {
+	// Parse pagination parameters
+	page, err := strconv.Atoi(ctx.DefaultQuery("page", "1"))
+	if err != nil || page <= 0 {
+		page = 1
+	}
+
+	pageSize, err := strconv.Atoi(ctx.DefaultQuery("pageSize", "10"))
+	if err != nil || pageSize <= 0 {
+		pageSize = 10
+	}
+	data, err := thesisSrv.ReadAllThesesByRole(ctx, page, pageSize)
 	if err != nil {
 		utils.ReturnError(ctx, err, http.StatusInternalServerError)
 		return

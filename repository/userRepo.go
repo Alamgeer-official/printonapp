@@ -49,7 +49,7 @@ func (u *userRepo) GetUserById(id int64) (*models.User, error) {
 }
 func (u *userRepo) GetUsers() (*[]models.User, error) {
 	var user []models.User
-	res := gormDB.Omit("password").Where("role", "USER").Find(&user)
+	res := gormDB.Omit("password").Where("active = true").Where("role", "USER").Find(&user)
 	if res.Error != nil {
 		return nil, res.Error
 	}

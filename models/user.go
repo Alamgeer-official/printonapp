@@ -18,7 +18,7 @@ type User struct {
 	CreatedOn  time.Time `gorm:"column:createdOn" json:"created_on"`
 	Phone      string    `gorm:"column:phone;not null" json:"phone,omitempty"`
 	CollegeId  int64     `gorm:"column:collegeid" json:"collegeId"`
-	College    College   `gorm:"foreignKey:CollegeId"`
+	College    College   `gorm:"foreignKey:CollegeId" json:"college"`
 	//AccessToken field without a corresponding gorm tag
 	AccessToken string `gorm:"-" json:"access_token,omitempty"`
 }

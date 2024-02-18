@@ -107,3 +107,18 @@ func GetUserDataFromContext(ctx *gin.Context) *models.User {
 	return user
 
 }
+
+func CalculatePagination(totalCount, pageSize, page int64, data interface{}) *models.Pagination {
+	totalPage := totalCount / pageSize
+	if totalCount%pageSize != 0 {
+		totalPage++
+	}
+	if totalPage == 0 {
+		totalPage = 1
+	}
+	return &models.Pagination{
+		TotalCount: totalCount,
+		TotalPage:  int(totalPage),
+		Data:       data,
+	}
+}

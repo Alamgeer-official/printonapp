@@ -10,6 +10,7 @@ import (
 type ThesisRepo interface {
 	CreateThesis(thesis *models.Theses) error
 	ReadAllTheses() (*[]models.Theses, error)
+	ReadAllThesesByUserID(uID int64, page, pageSize int) (*[]models.Theses, int64, error)
 	GetThesisByID(id uint64) (*models.Theses, error)
 }
 
@@ -28,10 +29,27 @@ func (tr *thesisRepo) CreateThesis(thesis *models.Theses) error {
 
 func (tr *thesisRepo) ReadAllTheses() (*[]models.Theses, error) {
 	var theses []models.Theses
-	if res := gormDB.Find(&theses); res.Error != nil {
+	if res := gormDB.Preload("User").Find(&theses); res.Error != nil {
 		return nil, errors.New("error in getting thesis records")
 	}
 	return &theses, nil
+}
+
+func (tr *thesisRepo) ReadAllThesesByUserID(uID int64, page, pageSize int) (*[]models.Theses, int64, error) {
+	var theses []models.Theses
+	var totalCount int64
+
+	// Count total number of theses for the user
+	if err := gormDB.Model(&models.Theses{}).Where("active = ?", true).Where("createdby = ?", uID).Count(&totalCount).Error; err != nil {
+		return nil, 0, errors.New("error counting theses")
+	}
+
+	// Retrieve paginated theses for the user
+	if res := gormDB.Where("active = ?", true).Where("createdby = ?", uID).Offset((page - 1) * pageSize).Limit(pageSize).Find(&theses); res.Error != nil {
+		return nil, 0, errors.New("error fetching thesis records")
+	}
+
+	return &theses, totalCount, nil
 }
 
 func (tr *thesisRepo) GetThesisByID(id uint64) (*models.Theses, error) {
