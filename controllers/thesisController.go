@@ -17,6 +17,7 @@ type ThesisCtr interface {
 	ReadAllTheses(ctx *gin.Context)
 	ReadAllThesesByRole(ctx *gin.Context)
 	GetThesisByID(ctx *gin.Context)
+	UpdateThesisByRole(ctx *gin.Context)
 }
 
 type thesisCtr struct{}
@@ -91,4 +92,19 @@ func (tc *thesisCtr) GetThesisByID(ctx *gin.Context) {
 	}
 
 	utils.ReturnResponse(ctx, thesis, http.StatusOK)
+}
+
+func (tc *thesisCtr) UpdateThesisByRole(ctx *gin.Context) {
+	var thesis models.Theses
+	if err := ctx.ShouldBindJSON(&thesis); err != nil {
+		utils.ReturnError(ctx, err, http.StatusBadRequest)
+		return
+	}
+
+	if err := thesisSrv.UpdateThesesByRole(ctx, &thesis); err != nil {
+		utils.ReturnError(ctx, err, http.StatusInternalServerError)
+		return
+	}
+
+	utils.ReturnResponse(ctx, "Thesis updated successfully", http.StatusOK)
 }

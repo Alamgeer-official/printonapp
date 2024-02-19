@@ -13,6 +13,7 @@ type ThesisRepo interface {
 	ReadAllThesesByUserID(uID int64, page, pageSize int) (*[]models.Theses, int64, error)
 	ReadAllThesesByCollegeID(uID int64, collegeID, page, pageSize int) (*[]models.Theses, int64, error) //for admin
 	GetThesisByID(id uint64) (*models.Theses, error)
+	UpdateThesisById(thesisID uint64, fields *models.Theses) error
 }
 
 type thesisRepo struct{}
@@ -83,11 +84,19 @@ func (tr *thesisRepo) ReadAllThesesByCollegeID(uID int64, collegeID, page, pageS
 
 func (tr *thesisRepo) GetThesisByID(id uint64) (*models.Theses, error) {
 	var thesis models.Theses
-	if res := gormDB.Where("id = ?", id).First(&thesis); res.Error != nil {
+	if res := gormDB.Preload("User").Preload("User.College").Where("id = ?", id).First(&thesis); res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, errors.New("thesis not found")
 		}
 		return nil, errors.New("error in getting thesis by ID")
 	}
 	return &thesis, nil
+}
+func (tr *thesisRepo) UpdateThesisById(thesisID uint64, fields *models.Theses) error {
+	// Update the fields
+	if err := gormDB.Model(&models.Theses{}).Where("id = ?", thesisID).Updates(fields).Error; err != nil {
+		return errors.New("failed to update thesis fields")
+	}
+
+	return nil
 }

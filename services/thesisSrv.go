@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/models"
@@ -14,6 +15,7 @@ type ThesisSrv interface {
 	ReadAllTheses(ctx *gin.Context) (*[]models.Theses, error)
 	ReadAllThesesByRole(ctx *gin.Context, collegeID, page, pageSize int) (*models.Pagination, error)
 	GetThesisByID(ctx *gin.Context, id uint64) (*models.Theses, error)
+	UpdateThesesByRole(ctx *gin.Context,  fields *models.Theses) error
 }
 
 type thesisSrv struct {
@@ -84,4 +86,32 @@ func (ts *thesisSrv) GetThesisByID(ctx *gin.Context, id uint64) (*models.Theses,
 		return nil, err
 	}
 	return thesis, nil
+}
+func (ts *thesisSrv) UpdateThesesByRole(ctx *gin.Context, fields *models.Theses) error {
+	user := utils.GetUserDataFromContext(ctx)
+	thesisID := fields.ID
+
+	// Check user role
+	switch {
+	case user.IsUser():
+		// For regular users, update only specific fields
+		fields = &models.Theses{
+			Description: fields.Description,
+		}
+	case user.IsAdmin():
+		// For admins, no modifications needed
+	default:
+		return errors.New("only authenticated users are allowed")
+	}
+
+	// Update common fields
+	fields.UpdatedBy = uint64(user.ID)
+	fields.UpdatedOn = time.Now()
+
+	// Update thesis
+	if err := ts.thesisRepo.UpdateThesisById(thesisID, fields); err != nil {
+		return err
+	}
+
+	return nil
 }
