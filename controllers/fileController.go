@@ -42,7 +42,7 @@ func (fc *FileController) UploadPDF(c *gin.Context) {
 		return
 	}
 
-	randomPath := "randompath54654121" + ".pdf"
+	randomPath := "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
 
 	utils.ReturnResponse(c, gin.H{"path": randomPath}, http.StatusOK)
 }
