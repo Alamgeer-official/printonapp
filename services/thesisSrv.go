@@ -14,7 +14,7 @@ type ThesisSrv interface {
 	CreateThesis(ctx *gin.Context, thesis *models.Theses) error
 	ReadAllTheses(ctx *gin.Context) (*[]models.Theses, error)
 	ReadAllThesesByRole(ctx *gin.Context, collegeID, page, pageSize int) (*models.Pagination, error)
-	GetThesisByID(ctx *gin.Context, id uint64) (*models.Theses, error)
+	GetThesisByID(ctx *gin.Context, id uint64) (*[]models.Theses, error)
 	UpdateThesesByRole(ctx *gin.Context,  fields *models.Theses) error
 }
 
@@ -76,7 +76,7 @@ func (ts *thesisSrv) ReadAllThesesByRole(ctx *gin.Context, collegeID, page, page
 	}
 }
 
-func (ts *thesisSrv) GetThesisByID(ctx *gin.Context, id uint64) (*models.Theses, error) {
+func (ts *thesisSrv) GetThesisByID(ctx *gin.Context, id uint64) (*[]models.Theses, error) {
 	user := utils.GetUserDataFromContext(ctx)
 	if !user.IsAdmin() && !user.IsUser() {
 		return nil, errors.New("only authenticated users and admins are allowed")

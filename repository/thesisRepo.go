@@ -12,7 +12,7 @@ type ThesisRepo interface {
 	ReadAllTheses() (*[]models.Theses, error)
 	ReadAllThesesByUserID(uID int64, page, pageSize int) (*[]models.Theses, int64, error)
 	ReadAllThesesByCollegeID(uID int64, collegeID, page, pageSize int) (*[]models.Theses, int64, error) //for admin
-	GetThesisByID(id uint64) (*models.Theses, error)
+	GetThesisByID(id uint64) (*[]models.Theses, error)
 	UpdateThesisById(thesisID uint64, fields *models.Theses) error
 }
 
@@ -82,8 +82,8 @@ func (tr *thesisRepo) ReadAllThesesByCollegeID(uID int64, collegeID, page, pageS
 	return &theses, totalCount, nil
 }
 
-func (tr *thesisRepo) GetThesisByID(id uint64) (*models.Theses, error) {
-	var thesis models.Theses
+func (tr *thesisRepo) GetThesisByID(id uint64) (*[]models.Theses, error) {
+	var thesis []models.Theses
 	if res := gormDB.Preload("User").Preload("User.College").Where("id = ?", id).First(&thesis); res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, errors.New("thesis not found")
