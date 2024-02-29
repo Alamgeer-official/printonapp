@@ -64,7 +64,7 @@ func (tc *thesisCtr) ReadAllThesesByRole(ctx *gin.Context) {
 		pageSize = 10
 	}
 
-	collegeID, err := strconv.Atoi(ctx.DefaultQuery("collegeID", "7")) //for admin use only
+	collegeID, err := strconv.Atoi(ctx.DefaultQuery("collegeId", "7")) //for admin use only
 	if err != nil || collegeID <= 0 {
 		collegeID = 7
 	}

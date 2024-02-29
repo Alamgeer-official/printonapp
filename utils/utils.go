@@ -19,9 +19,9 @@ var (
 func CreateJWToken(user *models.User) (string, error) {
 	//omit confidential info
 	var expiryTime int64
-	if user.Role=="ADMIN"{
+	if user.Role == "ADMIN" {
 		expiryTime = time.Now().Add(time.Hour * 24).Unix()
-	}else{
+	} else {
 		expiryTime = time.Now().Add(time.Hour * 4).Unix()
 	}
 	user.Password = ""

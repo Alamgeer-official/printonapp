@@ -67,7 +67,7 @@ func (tr *thesisRepo) ReadAllThesesByCollegeID(uID int64, collegeID, page, pageS
 	}
 
 	// Retrieve paginated theses for the college
-	if err := gormDB.Model(&models.Theses{}).
+	if err := gormDB.Debug().Model(&models.Theses{}).
 		Preload("User").
 		Joins("JOIN users ON theses.createdby = users.id").
 		Where("users.collegeid = ?", collegeID).

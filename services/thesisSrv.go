@@ -15,7 +15,7 @@ type ThesisSrv interface {
 	ReadAllTheses(ctx *gin.Context) (*[]models.Theses, error)
 	ReadAllThesesByRole(ctx *gin.Context, collegeID, page, pageSize int) (*models.Pagination, error)
 	GetThesisByID(ctx *gin.Context, id uint64) (*[]models.Theses, error)
-	UpdateThesesByRole(ctx *gin.Context,  fields *models.Theses) error
+	UpdateThesesByRole(ctx *gin.Context, fields *models.Theses) error
 }
 
 type thesisSrv struct {
@@ -62,7 +62,11 @@ func (ts *thesisSrv) ReadAllThesesByRole(ctx *gin.Context, collegeID, page, page
 		}
 		pagination := utils.CalculatePagination(totalCount, int64(pageSize), int64(page), data)
 		return pagination, nil
+
 	} else if user.IsAdmin() {
+		if collegeID == 0 {
+			return nil, errors.New("college id required")
+		}
 		//for admin
 		data, totalCount, err := ts.thesisRepo.ReadAllThesesByCollegeID(user.ID, collegeID, page, pageSize)
 		if err != nil {
