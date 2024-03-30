@@ -10,6 +10,7 @@ tmp/
 *.dll
 *.so
 *.dylib
+*.env
 printonapp
 
 
