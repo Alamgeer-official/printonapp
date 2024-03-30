@@ -9,6 +9,7 @@ import (
 	// "githuh.com/printonapp/repository"
 	"githuh.com/printonapp/repository"
 	"githuh.com/printonapp/routes"
+	awssdk "githuh.com/printonapp/utils/aws_sdk"
 )
 
 func main() {
@@ -20,6 +21,9 @@ func main() {
 
 	// init database
 	repository.InitDbConnectionos()
+
+	//init aws session
+	awssdk.AwsSessionInit()
 
 	// init server
 	fmt.Printf("server is running......\n")

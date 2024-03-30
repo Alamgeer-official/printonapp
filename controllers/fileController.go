@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/utils"
+	awssdk "githuh.com/printonapp/utils/aws_sdk"
 )
 
 type FileController struct{}
@@ -41,8 +42,13 @@ func (fc *FileController) UploadPDF(c *gin.Context) {
 		utils.ReturnError(c, errors.New("PDF files are allowed"), http.StatusBadRequest)
 		return
 	}
+	path,err:=awssdk.SaveFileS3(file,header)
+	if err!= nil {
+        utils.ReturnError(c, err, http.StatusInternalServerError)
+        return
+    }
 
-	randomPath := "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
+	randomPath := path
 
 	utils.ReturnResponse(c, gin.H{"path": randomPath}, http.StatusOK)
 }

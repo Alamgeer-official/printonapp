@@ -3,12 +3,15 @@ module githuh.com/printonapp
 go 1.21.0
 
 require (
+	github.com/aws/aws-sdk-go v1.51.11
 	github.com/gin-gonic/gin v1.9.1
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.14.0
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.4
 )
+
+require github.com/jmespath/go-jmespath v0.4.0 // indirect
 
 require (
 	github.com/bytedance/sonic v1.10.1 // indirect
@@ -39,7 +42,7 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.5.0 // indirect
-	golang.org/x/net v0.16.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect

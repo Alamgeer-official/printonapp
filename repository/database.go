@@ -47,4 +47,5 @@ func InitDbConnectionos() {
 		log.Fatalf("unable to connect gorm : %v", err)
 	}
 	gormDB = gormdb
+	log.Println("connected to db")
 }
