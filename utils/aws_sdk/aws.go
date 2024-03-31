@@ -5,6 +5,7 @@ import (
 	"io"
 	"mime/multipart"
 	"os"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -42,15 +43,19 @@ func AwsSessionInit() {
 }
 
 func SaveFileS3(fileReader io.Reader, fileHeader *multipart.FileHeader) (string, error) {
-	
+
 	var bucketName string = os.Getenv("BUCKET_NAME")
 
 	//get session into upload file
 	uploader := s3manager.NewUploader(awsSession)
 	// Upload the file to S3 using the fileReader
+
+	timestamp := time.Now().UnixNano() / int64(time.Millisecond)
+	fileKey := fmt.Sprintf("%d_%s", timestamp, fileHeader.Filename)
+	
 	_, err := uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(bucketName),
-		Key:    aws.String(fileHeader.Filename),
+		Key:    aws.String(fileKey),
 		Body:   fileReader,
 	})
 	if err != nil {
@@ -58,7 +63,7 @@ func SaveFileS3(fileReader io.Reader, fileHeader *multipart.FileHeader) (string,
 	}
 
 	// Get the URL of the uploaded file
-	url := fmt.Sprintf("https://%s.s3.amazonaws.com/%s", bucketName, fileHeader.Filename)
+	url := fmt.Sprintf("https://%s.s3.amazonaws.com/%s", bucketName, fileKey)
 
 	return url, nil
 }
