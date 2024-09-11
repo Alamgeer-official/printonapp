@@ -9,6 +9,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var sqlDB *sql.DB
@@ -42,10 +43,14 @@ func InitDbConnectionos() {
 	// Connect Orm
 	gormdb, err := gorm.Open(postgres.New(postgres.Config{
 		Conn: db,
-	}), &gorm.Config{})
+	}), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		log.Fatalf("unable to connect gorm : %v", err)
 	}
+	 // Set the search path to include the schema
+	 gormdb.Exec("SET search_path TO printonapp, public")
 	gormDB = gormdb
 	log.Println("connected to db")
 }
