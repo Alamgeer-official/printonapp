@@ -49,8 +49,8 @@ func InitDbConnectionos() {
 	if err != nil {
 		log.Fatalf("unable to connect gorm : %v", err)
 	}
-	 // Set the search path to include the schema
-	 gormdb.Exec("SET search_path TO printonapp, public")
+	// Set the search path to include the schema
+	gormdb.Exec("SET search_path TO printonapp, public")
 	gormDB = gormdb
 	log.Println("connected to db")
 }

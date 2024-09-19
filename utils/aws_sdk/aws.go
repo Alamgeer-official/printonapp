@@ -52,7 +52,7 @@ func SaveFileS3(fileReader io.Reader, fileHeader *multipart.FileHeader) (string,
 
 	timestamp := time.Now().UnixNano() / int64(time.Millisecond)
 	fileKey := fmt.Sprintf("%d_%s", timestamp, fileHeader.Filename)
-	
+
 	_, err := uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(bucketName),
 		Key:    aws.String(fileKey),

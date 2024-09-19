@@ -42,11 +42,11 @@ func (fc *FileController) UploadPDF(c *gin.Context) {
 		utils.ReturnError(c, errors.New("PDF files are allowed"), http.StatusBadRequest)
 		return
 	}
-	path,err:=awssdk.SaveFileS3(file,header)
-	if err!= nil {
-        utils.ReturnError(c, err, http.StatusInternalServerError)
-        return
-    }
+	path, err := awssdk.SaveFileS3(file, header)
+	if err != nil {
+		utils.ReturnError(c, err, http.StatusInternalServerError)
+		return
+	}
 
 	randomPath := path
 
