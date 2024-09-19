@@ -23,7 +23,7 @@ func main() {
 	}
 
 	// Initialize database connection
-	repository.InitDbConnectionos()
+	repository.InitDbConnection()
 
 	// Initialize AWS session
 	awssdk.AwsSessionInit()

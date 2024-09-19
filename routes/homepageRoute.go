@@ -5,7 +5,7 @@ import (
 	"githuh.com/printonapp/controllers"
 )
 
-func HomePageSubroute(route *gin.Engine) {
+func HomePageRoutes(route *gin.Engine) {
 	homePage := route.Group("/homepage")
 	{ // college controller
 		collegeCtr := controllers.NewCollegeCtr()

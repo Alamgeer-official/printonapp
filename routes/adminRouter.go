@@ -3,12 +3,12 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/controllers"
-	"githuh.com/printonapp/middelware"
+	"githuh.com/printonapp/middleware"
 )
 
-func AdminRoute(route *gin.Engine) {
+func AdminRoutes(route *gin.Engine) {
 
-	admin := route.Group("/admin", middelware.AuthMiddelware())
+	admin := route.Group("/admin", middleware.AuthMiddleware())
 	{
 		//Products
 		productCtr := controllers.NewProductCtr()

@@ -1,4 +1,4 @@
-package middelware
+package middleware
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 	"githuh.com/printonapp/utils"
 )
 
-func AuthMiddelware() gin.HandlerFunc {
+func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
 		//extract token

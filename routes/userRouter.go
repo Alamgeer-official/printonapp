@@ -3,12 +3,12 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"githuh.com/printonapp/controllers"
-	"githuh.com/printonapp/middelware"
+	"githuh.com/printonapp/middleware"
 )
 
 func UserRoutes(route *gin.Engine) {
 
-	mw := middelware.AuthMiddelware()
+	mw := middleware.AuthMiddleware()
 	user := route.Group("/users")
 	{
 		user.GET("/", mw, controllers.GetUsers)
