@@ -1,16 +1,24 @@
 package routes
 
 import (
+
+
 	"github.com/gin-gonic/gin"
+
 	"githuh.com/printonapp/controllers"
 	"githuh.com/printonapp/middelware"
 )
 
 func NewRouter() *gin.Engine {
 	// Set Gin mode to release mode
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.TestMode)
+
 	//init gin engine
 	router := gin.Default()
+
+	
+
+	// Setup Middleware
 	router.Use(middelware.SetupCORSMiddleware())
 
 	router.GET("", controllers.Test)
@@ -25,5 +33,6 @@ func NewRouter() *gin.Engine {
 	UserRoutes(router)
 	//Home page Route
 	HomePageSubroute(router)
+
 	return router
 }

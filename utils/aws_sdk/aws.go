@@ -19,7 +19,7 @@ func AwsSessionInit() {
 	var region string = os.Getenv("REGION")
 	var accessKey string = os.Getenv("ACCESS_KEY_ID")
 	var secretKey string = os.Getenv("SECRET_ACCESS_KEY")
-	fmt.Printf("region: %v\n", region)
+	
 
 	Session, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
